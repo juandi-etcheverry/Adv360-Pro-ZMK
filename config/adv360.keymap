@@ -20,6 +20,21 @@
           flavor = "tap-preferred";
           bindings = <&kp>, <&kp>;
       };
+
+      // SOCD cleaning (snap-tap) for mouse movement: without it, opposite
+      // directions sum to zero in &mmv's accumulator and the cursor freezes.
+      // Last-input-priority with resume; one instance per opposing pair.
+      socd_mh: socd_mouse_horizontal {
+          compatible = "zmk,behavior-socd";
+          #binding-cells = <1>;
+          bindings = <&mmv>;
+      };
+
+      socd_mv: socd_mouse_vertical {
+          compatible = "zmk,behavior-socd";
+          #binding-cells = <1>;
+          bindings = <&mmv>;
+      };
     };
 
   keymap {
@@ -69,8 +84,8 @@
       display-name = "Mouse";
       bindings = <
         &trans &trans &trans &trans &trans &trans &trans                                                  &trans &trans &trans         &trans         &trans    &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans                                                  &trans &trans &mkp LCLK      &mmv MOVE_UP   &mkp RCLK &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans               &trans &trans &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans                                                  &trans &trans &mkp LCLK          &socd_mv MOVE_UP   &mkp RCLK &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans               &trans &trans &socd_mh MOVE_LEFT &socd_mv MOVE_DOWN &socd_mh MOVE_RIGHT &trans &trans
         &trans &trans &trans &trans &trans &trans                      &trans &trans                             &trans &trans &trans  &trans         &trans    &trans
         &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans &trans               &trans &trans &trans  &trans         &trans
       >;
