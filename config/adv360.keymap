@@ -4,6 +4,7 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/stp.h>
 #include <dt-bindings/zmk/backlight.h>
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1500
 #include <dt-bindings/zmk/pointing.h>
 
 / {
@@ -109,7 +110,9 @@
 };
 
 &mmv {
-    time-to-max-speed-ms = <300>;
-    acceleration-exponent = <1>;
+    time-to-max-speed-ms = <100>;
+    // exponent 2 = speed scales with (t/T)^2: near-still on short taps,
+    // full ZMK_POINTING_DEFAULT_MOVE_VAL speed once held past 100ms
+    acceleration-exponent = <2>;
     delay-ms = <0>;
 };
